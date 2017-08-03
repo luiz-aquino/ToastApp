@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'keyAlias'
+            keyPassword 'keyPassword'
+            storeFile file('../.sign/app.keystore')
+            storePassword 'keyPassword'
+        }
+    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "br.com.luizaquino.toastapp.toastapp"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    productFlavors {
+        normal {
+
+        }
+
+        demo {
+            applicationIdSuffix = ".demo";
+        }
+
+        diferentao {
+            applicationId = "br.com.luizAquino.diferentao";
+            versionName "0.0.1"
+            versionCode 1
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../.sign/app.keystore")
+            storePassword "storePassword"
+            keyAlias "keyAlias"
+            keyPassword "keyPassword"
+        }
+        hobo {
+            storeFile file("../.sign/app.keystore")
+            storePassword "storePassword"
+            keyAlias "keyAlias"
+            keyPassword "keyPassword"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "REPORT_CRASH", "true")
+        }
+
+        homolog {
+            signingConfig signingConfigs.hobo
+            buildConfigField("boolean", "REPORT_CRASH", "true")
+        }
+        debug {
+            signingConfig signingConfigs.release
+            buildConfigField("boolean", "REPORT_CRASH", "false")
+        }
+    }
+}
+
+repositories {
+    maven {
+        url = "file:////c://rep"
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
+    compile 'br.com.luizAquino:minhabiblioteca:0.0.1'
+}
